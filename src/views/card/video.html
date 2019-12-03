@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>视频播放</title>
+
+</head>
+<body>
+<!-- 给div设置一个id -->
+<div id="playercontainer"></div>
+
+<script src="https://cdn.bdstatic.com/jwplayer/latest/cyberplayer.js"></script>
+
+<script>
+    var player = cyberplayer("playercontainer").setup({
+        width: 680, // 宽度，也可以支持百分比(不过父元素宽度要有)
+        height: 448, // 高度，也可以支持百分比
+        title: "基本功能", // 标题
+        file: "http://www.lycard.com/video/2b5868a3c1d84ec0b9fc4ec346c97d84.mp4", // 播放地址
+      //  image: "http://gcqq450f71eywn6bv7u.exp.bcevod.com/mda-hbqagik5sfq1jsai/mda-hbqagik5sfq1jsai.jpg", // 预览图
+        autostart: false, // 是否自动播放
+        stretching: "uniform", // 拉伸设置
+        repeat: false, // 是否重复播放
+        volume: 100, // 音量
+        controls: true, // controlbar是否显示
+        starttime: 0, // 视频开始播放时间点(单位s)，如果不设置，则可以从上次播放时间点续播
+        logo: { // logo设置
+            linktarget: "_blank",
+            margin: 8,
+            hide: false,
+            position: "top-right", // 位置
+            file: "./img/logo.png" // 图片地址
+        },
+        ak: "a4a33aac559143de89246592eb2264f9" // 公有云平台注册即可获得accessKey
+    });
+</script>
+
+</body>
+</html>
