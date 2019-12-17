@@ -50,10 +50,11 @@
           <el-form-item label="图标">
             <el-upload
                     class="avatar-uploader"
-                    action="http://localhost:10086/fileUpload"
+                    :action="getDomain()"
                     :show-file-list="false"
                     :on-success="handleAvatarSuccess"
-                    :before-upload="beforeAvatarUpload">
+                    :before-upload="beforeAvatarUpload"
+                    with-credentials="true">
               <img v-if="form.icon" :src="form.icon" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -91,6 +92,9 @@ export default {
     this.getParams();
   },
   methods: {
+      getDomain(){
+         return this.$http.defaults.baseURL + "/fileUpload";
+      },
       //重置表单
       reSet(){
           this.form = JSON.parse(JSON.stringify(this.bakForm));

@@ -14,7 +14,7 @@ import '@/assets/icons/iconfont.css'
 //2.引入axios
 import axios from 'axios'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-axios.defaults.baseURL = 'http://localhost:10086';
+axios.defaults.baseURL = 'https://card.pplm1996.com:10086';
 axios.defaults.withCredentials=true;
 axios.interceptors.response.use(
     response => {
@@ -54,6 +54,9 @@ import moment from 'moment'
 Vue.prototype.$moment=moment;//设置到vue原型属性,调用方式this.$moment(date).format("YYYY-MM-DD HH:mm:ss");
 
 Vue.use(VueAwesomeSwiper)
+
+import {setCookie,getCookie,delCookie} from './utils/cookieUtil.js'
+Vue.prototype.$cookieStore = {setCookie,getCookie,delCookie}
 
 new Vue({
     router,

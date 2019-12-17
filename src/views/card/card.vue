@@ -129,7 +129,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item class="form_input" label=头像 >
+                        <el-form-item class="form_input" label=头像 v-if="formEdit.headImage != null && formEdit.headImage.length > 0">
                             <el-image
                                     style="width: 120px; height: 120px"
                                     :src="formEdit.headImage"
@@ -137,7 +137,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item class="form_select" label="微信">
+                        <el-form-item class="form_select" label="微信" v-if="formEdit.wxCode != null && formEdit.wxCode.length > 0">
                             <el-image
                                     style="width: 120px; height: 120px"
                                     :src="formEdit.wxCode"
@@ -147,7 +147,7 @@
                 </el-row>
                 <el-row>
                     <el-col span="22">
-                        <el-form-item label="图片" class="form_select"  v-if="formEdit.image != null">
+                        <el-form-item label="图片" class="form_select"  v-if="formEdit.image != null && formEdit.image.length > 0">
                             <el-image v-for="item in formEdit.image"
                                     style="width: 100px; height: 100px"
                                     :src="item"
@@ -158,7 +158,7 @@
                 </el-row>
                 <el-row>
                     <el-col span="22">
-                        <el-form-item label="视频" class="form_select" v-if="formEdit.video != null">
+                        <el-form-item label="视频" class="form_select" v-if="formEdit.video != null && formEdit.video.length > 0">
                             <video width="80%" height="240" controls >
                                 <source :src="formEdit.video" >
                                 您的浏览器不支持 video 标签。

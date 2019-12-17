@@ -1,6 +1,6 @@
 <template>
   <div class="footer">
-     版权所有 cckuiwy@163.com Copyright @ 2019 - 2099
+     品牌联盟名片管理后台
   </div>
 </template>
 

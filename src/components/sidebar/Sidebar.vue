@@ -14,7 +14,7 @@
         <!--<span slot="title">Dashboard</span>-->
       <!--</el-menu-item>-->
       <el-menu-item index="/card" >
-        <i class="el-icon-service"></i>
+        <i class="el-icon-user"></i>
         <span slot="title">名片管理</span>
       </el-menu-item>
 
@@ -33,10 +33,10 @@
         <!--</template>-->
         <!--<el-menu-item index="/tables/list">Example</el-menu-item>-->
       <!--</el-submenu>-->
-      <el-menu-item index="/setting" >
-        <i class="el-icon-setting"></i>
-        <span slot="title">基本设置</span>
-      </el-menu-item>
+      <!--<el-menu-item index="/setting" >-->
+        <!--<i class="el-icon-setting"></i>-->
+        <!--<span slot="title">基本设置</span>-->
+      <!--</el-menu-item>-->
     </el-menu>
   </div>
 </template>

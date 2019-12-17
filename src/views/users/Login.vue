@@ -6,7 +6,7 @@
     <div class="login-wrapper" v-show="!showLoading">
       <img :src="imgUrl" alt="" width="100%" height="100%">
       <div class="login">
-        <p class="title">用户登录</p>
+        <p class="title">品牌联盟名片管理</p>
         <el-form
           :model="ruleForm"
           status-icon

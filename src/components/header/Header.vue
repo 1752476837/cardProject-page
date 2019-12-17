@@ -2,7 +2,7 @@
   <div class="header">
     <div class="logo" :class="{'is-active':isActive}">
       <img src="@/assets/logo.png" alt="" height="30px">
-      VueEleDemo
+      名片后台管理
     </div>
     <div class="navbar">
       <div class="btn" :class="{'is-active':isActive}" @click="handleMenu">
@@ -13,6 +13,7 @@
           {{this.$store.getters.username}}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item @click.native="center">个人中心 </el-dropdown-item>
           <el-dropdown-item @click.native="logout">退出 </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -42,6 +43,11 @@ export default {
     handleMenu () {
       this.$store.dispatch('ToggleSideBar')
     },
+     center(){
+         this.$router.push({
+             path: '/center'
+         })
+     },
     logout () {
       this.$confirm('是否退出账户?', '提示', {
         confirmButtonText: '确定',

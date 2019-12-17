@@ -16,6 +16,7 @@ const Tables = () => import(/* webpackChunkName: "tables" */ '@/views/tables/Tab
 const List = () => import(/* webpackChunkName: "tables" */ '@/views/tables/list/List.vue')
 const Details = () => import(/* webpackChunkName: "tables" */ '@/views/tables/details/Details.vue')
 const Setting = () => import(/* webpackChunkName: "tables" */ '@/views/setting/Setting.vue')
+const Center = () => import(/* webpackChunkName: "tables" */ '@/views/setting/Center.vue')
 const NotFind = () => import(/* webpackChunkName: "home" */ '@/views/404.vue')
 
 Vue.use(Router)
@@ -57,6 +58,16 @@ const router = new Router({
               meta: {
                   breadcrumb: '名片管理',
                   title: '名片管理',
+                  requireLogin: true
+              }
+          },
+          {
+              path: '/Center',
+              name: '个人中心',
+              component: Center,
+              meta: {
+                  breadcrumb: '个人中心',
+                  title: '个人中心',
                   requireLogin: true
               }
           },
@@ -148,6 +159,7 @@ const router = new Router({
           component: Setting,
           meta: {
             breadcrumb: '基本设置',
+              title: '基本设置',
             requireLogin: true
           },
         }
