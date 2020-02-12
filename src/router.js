@@ -10,6 +10,7 @@ const Dashboard = () => import(/* webpackChunkName: "dashboard" */ '@/views/dash
 const empTask = () => import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/empTask.vue')
 const card = () => import(/* webpackChunkName: "dashboard" */ '@/views/card/card.vue')
 const video1 = () => import(/* webpackChunkName: "dashboard" */ '@/views/card/video1.vue')
+
 const Diagram = () => import(/* webpackChunkName: "charts" */ '@/views/charts/Diagram.vue')
 const Slider = () => import(/* webpackChunkName: "dashboard" */ '@/views/charts/Slider.vue')
 const Tables = () => import(/* webpackChunkName: "tables" */ '@/views/tables/Tables.vue')

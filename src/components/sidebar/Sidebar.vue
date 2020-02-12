@@ -17,7 +17,10 @@
         <i class="el-icon-user"></i>
         <span slot="title">名片管理</span>
       </el-menu-item>
-
+        <!--<el-menu-item index="/kcgl" >-->
+            <!--<i class="el-icon-user"></i>-->
+            <!--<span slot="title">測試1111</span>-->
+        <!--</el-menu-item>-->
       <!--<el-submenu index="/charts">-->
         <!--<template slot="title">-->
           <!--<i class="el-icon-view"></i>-->
@@ -33,10 +36,10 @@
         <!--</template>-->
         <!--<el-menu-item index="/tables/list">Example</el-menu-item>-->
       <!--</el-submenu>-->
-      <!--<el-menu-item index="/setting" >-->
-        <!--<i class="el-icon-setting"></i>-->
-        <!--<span slot="title">基本设置</span>-->
-      <!--</el-menu-item>-->
+      <el-menu-item index="/setting" >
+        <i class="el-icon-setting"></i>
+        <span slot="title">基本设置</span>
+      </el-menu-item>
     </el-menu>
   </div>
 </template>

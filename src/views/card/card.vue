@@ -35,12 +35,14 @@
         <el-row class="operate">
             <el-col :span="24">
                 <!--<el-button type="primary" round @click="onShowAdd">新增</el-button>-->
-                <!--<el-button type="danger" round>批量删除</el-button>-->
+                <el-button type="danger" @click="deleteCard()">删除</el-button>
+                <el-button type="primary" @click="exportSelected()"> 导出选中 </el-button>
+                <el-button type="primary" @click="exportAll()"> 导出全部</el-button>
             </el-col>
         </el-row>
         <!-- 操作区 end -->
         <!--表格 start-->
-        <el-table :data="tableList" border style="width: 100%" align="center" v-loading="loading"
+        <el-table @selection-change="handleSelectionChange" :data="tableList" border style="width: 100%" align="center" v-loading="loading"
                   :default-sort = "{prop: 'createTime', order: 'descending'}">
             <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column prop="name" label="姓名" width="180" align="center"></el-table-column>
@@ -54,8 +56,8 @@
 
             <el-table-column fixed="right" label="操作" width="100" align="center">
                 <template slot-scope="scope">
-                    <el-button @click="onShowDetail(scope.row)" type="text" size="small">详情</el-button>
-                    <!--<el-button @click="onShowEdit(scope.row)" type="text" size="small">编辑</el-button>-->
+                    <el-button @click="onShowDetail(scope.row)" type="text" size="small">查看</el-button>
+                    <el-button @click="onShowEdit(scope.row)" type="text" size="small">编辑</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -98,7 +100,9 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item class="form_select" label="手机号" prop="type">
+                        <el-form-item class="form_select" label="手机号" prop="phone" :rules="[
+                          {min: 11,max: 11,message: '手机号码长度为11'},
+                        ]">
                             <el-input v-model="formEdit.phone" placeholder="手机号"></el-input>
                         </el-form-item>
                     </el-col>
@@ -212,7 +216,7 @@
             </el-form>
             <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogParam.show = false">取 消</el-button>
-        <el-button v-show="this.editDialogParam.title!='查看'" type="primary" @click="onAdd();">确 定</el-button>
+        <el-button v-show="this.editDialogParam.title!='查看'" type="primary" @click="onAdd();">保 存</el-button>
       </span>
         </el-dialog>
         <!-- 新增，编辑，查看 end -->
@@ -270,6 +274,7 @@
         name: "tablepage",
         data() {
             return {
+                multipleSelection:[], // 选中的id数组
                 dialogImageUrl: '',
                 dialogVisible: false,
                 //列表
@@ -315,6 +320,153 @@
            this.onSearch();
         },
         methods: {
+            //导出全部名片信息为 excel
+            exportAll(){
+                let url = this.$http.defaults.baseURL+"/card/exportAll";
+                this.$http({
+
+                    method: 'post',
+
+                    header: {'Content-Type': 'application/xls'},　　　　　　　　　　　　// http请求类型
+
+                    responseType: 'blob',　　　　　　　　　　　　　　　　　　　　　　// 返回格式，默认json，可选arraybuffer、blob、document、json、text、stream
+
+                    url: url,
+
+
+                })
+
+                    .then( res =>{
+
+                        //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
+
+                        let blob = new Blob([res.data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'});
+
+                        let downloadElement = document.createElement('a');
+
+                        let href = window.URL.createObjectURL(blob);
+
+                        downloadElement.href = href;
+
+                        downloadElement.download = '名片信息.xls';　　　　　　　　　　// xxx.xls/xxx.xlsx
+
+                        document.body.appendChild(downloadElement);
+
+                        downloadElement.click();
+
+                        document.body.removeChild(downloadElement);
+
+                        window.URL.revokeObjectURL(href);
+
+                    })
+
+                    .catch( err => {
+                        this.$message.error('服务器连接错误！');
+                    });
+            },
+            //导出选中的名片 为 excel
+            exportSelected(){
+                //如果没有选择则提示
+                if (this.multipleSelection.length == 0){
+                    this.$notify({
+                        title: '提示',
+                        message: "请选择名片信息",
+                        duration: 2000,
+                        type: 'warning'
+                    });
+                    return;
+                }
+                let url = this.$http.defaults.baseURL+"/card/exportSelected";
+                let data  =  this.multipleSelection;
+                this.$http({
+
+                    method: 'post',
+
+                    header: {'Content-Type': 'application/xls'},　　　　　　　　　　　　// http请求类型
+
+                    responseType: 'blob',　　　　　　　　　　　　　　　　　　　　　　// 返回格式，默认json，可选arraybuffer、blob、document、json、text、stream
+
+                    url: url,
+
+                    data: data
+
+                })
+
+                    .then( res =>{
+
+                        //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
+
+                        let blob = new Blob([res.data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'});
+
+                        let downloadElement = document.createElement('a');
+
+                        let href = window.URL.createObjectURL(blob);
+
+                        downloadElement.href = href;
+
+                        downloadElement.download = '名片信息.xls';　　　　　　　　　　// xxx.xls/xxx.xlsx
+
+                        document.body.appendChild(downloadElement);
+
+                        downloadElement.click();
+
+                        document.body.removeChild(downloadElement);
+
+                        window.URL.revokeObjectURL(href);
+
+                    })
+
+                    .catch( err => {
+                        this.$message.error('服务器连接错误！');
+                    });
+
+            },
+
+            // 删除选中的条数
+            deleteCard(){
+                //如果没有选择则提示
+                if (this.multipleSelection.length == 0){
+                    this.$notify({
+                        title: '提示',
+                        message: "请选择名片信息",
+                        duration: 2000,
+                        type: 'warning'
+                    });
+                    return;
+                }
+                this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$http.post("card/remove",this.multipleSelection).then(res => {
+                        this.$notify({
+                            title: '成功',
+                            message: "已删除",
+                            duration: 2000,
+                            type: 'success'
+                        });
+                        this.onSearch();
+                    });
+
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+
+
+            },
+            //选中的条数
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+                let ids = [];
+                for(let i in val){
+                    ids.push(val[i].id);
+                }
+                this.multipleSelection = ids;
+            },
             //上传
             handleRemove(file, fileList) {
                 console.log(file, fileList);
@@ -428,23 +580,16 @@
                 });
             },
             _edit() {
-                this.$refs["formEdit"].validate(valid => {
-                    if (valid) {
-                        var param = Object.assign({}, this.formEdit);
-                        param.content = JSON.stringify(param.content);
-                        this.$http
-                            .put("/params/update", param)
-                            .then(response => {
-                                this.$message({ message: "执行成功", type: "success" });
-                                this.onSearch();
-                                this.editDialogParam.show = false;
-                            })
-                            .catch(error => {
-                                this.$message({ message: "执行异常,请重试", type: "error" });
-                            })
-                            .finally(() => {});
-                    }
-                });
+                  this.$http
+                  .post("card/updateCard",this.formEdit )
+                  .then(response => {
+                      this.$message({ message: "保存成功", type: "success" });
+                      this.onSearch();
+                      this.editDialogParam.show = false;
+                  })
+                  .catch(error => {
+                      this.$message({ message: "操作异常,请重试", type: "error" });
+                  })
             },
             onShowAdd() {
                 this.editDialogParam.title = "新增";//设置标题
@@ -466,13 +611,15 @@
             onShowEdit(rowData) {
                 this.editDialogParam.title = "编辑";
                 this.editDialogParam.show = true;
-                this.editDialogParam.formEditDisabled=false;
-                let curData=JSON.parse(JSON.stringify(rowData));
-                curData.content = JSON.parse(curData.content);
+                //this.editDialogParam.formEditDisabled=false;
+                let data =  JSON.parse(JSON.stringify(rowData));
+                //目前仅显示基本信息，不显示图片，和视频【暂时只能编辑基本信息】
+                this.formEdit= data;
+                this.formEdit.headImage="",   //头像url
+                this.formEdit.wxCode="",       //微信二维码
+                this.formEdit.image=null,        //图片列表
+                this.formEdit.video=null       //视频url
 
-                console.log("列表中的值"+JSON.stringify(curData))
-
-                this.formEdit=Object.assign({},curData);
             },
             onShowDetail(rowData) {
                 this.editDialogParam.title = "查看";
@@ -481,7 +628,7 @@
                 let data =  JSON.parse(JSON.stringify(rowData));
                 this.formEdit= data;
                 this.formEdit.image = JSON.parse(data.image);
-                console.log(this.formEdit)
+
             },
             onReset() {
                 //重置

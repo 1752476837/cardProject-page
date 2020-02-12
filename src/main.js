@@ -26,7 +26,8 @@ axios.interceptors.response.use(
             switch (error.response.status) {
                 case 401:
                     // 返回 401 (未授权) 清除 token 并跳转到登录页面
-                    store.commit('BIND_LOGOUT')
+                    console.log("返回 401 (未授权) 清除 token 并跳转到登录页面\n")
+                   // store.commit('BIND_LOGOUT')
                     router.replace({
                         path: '/login',
                         query: {
