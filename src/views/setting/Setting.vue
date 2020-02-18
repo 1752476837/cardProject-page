@@ -94,6 +94,7 @@ export default {
   methods: {
       getDomain(){
          return this.$http.defaults.baseURL + "/fileUpload";
+         //  return "http://rrj.zhixingonline.com:8080/upload/fileUpload";
       },
       //重置表单
       reSet(){
